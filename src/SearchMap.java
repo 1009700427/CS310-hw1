@@ -1,4 +1,7 @@
 public class SearchMap {
+    /*
+     * @param: arguments
+     */
     public static void main(String[] args)
     {
         // checks for input errors
