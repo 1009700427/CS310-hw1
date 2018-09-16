@@ -12,36 +12,37 @@
     <!-- set up some directories used by this project -->
     <target name="init" depends="clean" description="setup project directories">
         <mkdir dir="${build.dir}"/>
-        <mkdir dir="${build.dir}/classes"/>
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${doc.dir}"/>
     </target>
-    <!-- Generate javadocs for current project into docs dir -->
-    <target name="doc" depends="init" description="generate documentation">
+    <!-- Generate javadocs for current project into docs dimapr -->
+    <target name="doc" description="generate documentation">
+        <mkdir dir="${doc.dir}"/>
         <javadoc sourcepath="${source.dir}" destdir="${doc.dir}">
             <fileset dir="${source.dir}"/>
         </javadoc>
     </target>
     <!-- Compile the java code in src dir into build dir -->
-    <target name="class-file" depends="init,doc" description="compile java sources">
-        <javac includeantruntime="false" srcdir="${source.dir}" destdir="${build.dir}/classes"/>
+    <target name="compile" depends="init,doc" description="compile java sources">
+        <javac includeantruntime="false" srcdir="${source.dir}" destdir="${build.dir}"/>
     </target>
     <!-- Delete the build & doc directories and Emacs backup (*~) files -->
     <target name="clean" description="tidy up the workspace">
         <delete dir="${build.dir}" />
         <delete dir="${dist.dir}" />
+        <delete dir="${doc.dir}"/>
     </target>
 
-    <target name="compile" depends="class-file">
-        <jar destfile="${dist.dir}/SearchMap.jar" basedir="${build.dir}/classes">
+    <target name="dist" depends="compile">
+        <jar destfile="${dist.dir}/SearchMap.jar" basedir="${build.dir}">
             <manifest>
-                <attribute name="Main-Class" value="Map.SearchMap"/>
+                <attribute name="Main-Class" value="SearchMap"/>
             </manifest>
         </jar>
 
     </target>
 
-    <target name="run" depends="compile" >
+    <target name="run" depends="dist" >
         <java jar="${dist.dir}/SearchMap.jar" fork="true"/>
     </target>
 
