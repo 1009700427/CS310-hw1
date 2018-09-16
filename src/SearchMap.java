@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.PriorityQueue;
 import javafx.util.Pair;
 import java.util.HashMap;
@@ -75,11 +76,42 @@ public class SearchMap {
                 graph.get(line[0]).put(line[1], Integer.parseInt(line[2]));
             }
         }
-//        for(HashMap.Entry<String, Integer> entry : dist.entrySet())
-//        {
-//            System.out.println(entry.getKey() + " " + entry.getValue());
-//        }
         FlightMap.solveMap(graph, dist, unvisited, prev);
-        FlightMap.output(dist, prev, start, args[1]);
+        output(dist, prev, start, args[1]);
+    }
+
+    // this method outputs the final result to a file
+    public static void output(HashMap<String, Integer> dist, HashMap<String, String> prev, String start, String output)
+    {
+        int length = 25;
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(output, "UTF-8");
+        }
+        catch(Exception e)
+        {
+            System.out.println("Output Error!!!");
+            return;
+        }
+        writer.println(String.format("%-25s %-25s %-25s","Destination", "Flight Route From "+start, "Total Cost"));
+        for(HashMap.Entry<String, Integer> entry : dist.entrySet())
+        {
+            if(entry.getKey().equals(start) || entry.getValue()==~(1<<31)) continue;
+            writer.println(String.format("%-25s %-25s %-25s", entry.getKey(), getRoute(prev, start, entry.getKey()),
+                    "$" + Integer.toString(entry.getValue())));
+        }
+        writer.close();
+    }
+    // This function returns the route
+    public static String getRoute(HashMap<String, String> prev, String start, String end)
+    {
+        String res = end;
+        String curr = end;
+        while(curr!="")
+        {
+            res = prev.get(curr) + "," + res;
+            curr = prev.get(curr);
+        }
+        return res.substring(1);
     }
 }

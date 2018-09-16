@@ -8,6 +8,7 @@
     <property name="build.dir" location="bin"/>
     <property name="dist.dir" location="dist"/>
     <property name="doc.dir" location="doc"/>
+    <property name="lib.dir" location="lib"/>
 
     <!-- set up some directories used by this project -->
     <target name="init" depends="clean" description="setup project directories">
@@ -22,9 +23,20 @@
             <fileset dir="${source.dir}"/>
         </javadoc>
     </target>
+
+    <path id="class.path">
+        <fileset dir="lib">
+            <include name="junit-4.10.jar" />
+            <include name="commons-io-2.6.jar"/>
+        </fileset>
+    </path>
+
     <!-- Compile the java code in src dir into build dir -->
-    <target name="compile" depends="init,doc" description="compile java sources">
-        <javac includeantruntime="false" srcdir="${source.dir}" destdir="${build.dir}"/>
+    <target name="compile" depends="init" description="compile java sources">
+        <javac includeantruntime="false" srcdir="${source.dir}" destdir="${build.dir}">
+            <!--classpath="${lib.dir}/junit-4.10.jar"-->
+            <classpath refid="class.path" />
+        </javac>
     </target>
     <!-- Delete the build & doc directories and Emacs backup (*~) files -->
     <target name="clean" description="tidy up the workspace">
@@ -44,6 +56,18 @@
 
     <target name="run" depends="dist" >
         <java jar="${dist.dir}/SearchMap.jar" fork="true"/>
+    </target>
+
+
+    <target name="test" depends="compile">
+        <junit printsummary="true" haltonfailure="false">
+            <test name="TestSearchMap"/>
+            <test name="TestFlightMap"/>
+            <classpath>
+                <pathelement location="${lib.dir}/junit-4.10.jar"/>
+                <pathelement location="${build.dir}"/>
+            </classpath>
+        </junit>
     </target>
 
 </project>
