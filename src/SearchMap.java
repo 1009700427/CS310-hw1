@@ -10,6 +10,7 @@ import java.util.HashSet;
 public class SearchMap {
     /*
      * @param: arguments
+     * This is the main method for CS310 Project 1
      */
     public static void main(String[] args)
     {
@@ -102,7 +103,7 @@ public class SearchMap {
         }
         writer.close();
     }
-    // This function returns the route
+    // This function returns the shortest route from the starting point to the end
     public static String getRoute(HashMap<String, String> prev, String start, String end)
     {
         String res = end;

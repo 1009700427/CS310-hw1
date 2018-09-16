@@ -1,5 +1,5 @@
 <!-- generate everything using "ant compile"-->
-<project name="CS310 hw1" default="compile" basedir=".">
+<project name="Project1" default="compile" basedir=".">
     <description>
         A sample build file for this project
     </description>

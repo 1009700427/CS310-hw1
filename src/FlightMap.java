@@ -8,6 +8,7 @@ import java.util.Formatter;
 import java.io.PrintWriter;
 public class FlightMap {
     // The main function for solving the map the yield the requested output
+    // Implements Dijkstra's Algorithm
     public static void solveMap(HashMap<String, HashMap<String, Integer>> graph, HashMap<String, Integer> dist,
                                 HashSet<String> unvisited, HashMap<String, String> prev)
     {
@@ -39,7 +40,7 @@ public class FlightMap {
             }
         }
     }
-
+    // Finds the unvisited node with the smallest distance thus far
     public static String findSmallestDist(HashMap<String, Integer> dist, HashSet<String> unvisited)
     {
         String res = "";
