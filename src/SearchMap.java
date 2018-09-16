@@ -83,16 +83,3 @@ public class SearchMap {
         FlightMap.output(dist, prev, start, args[1]);
     }
 }
-
-// comparator for min heap
-class minComparator implements Comparator<Pair<String, Integer> >
-{
-    public int compare(Pair<String, Integer> a, Pair<String, Integer> b)
-    {
-        if(a.getValue() > b.getValue())
-        {
-            return 1;
-        }
-        return -1;
-    }
-}
